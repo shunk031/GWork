@@ -148,4 +148,4 @@ class GScraper(GBase):
         :rtype: str
         """
         tdatetime = dateutil.parser.parse(update_date)
-        return tdatetime.strftime("%Y-%d-%d")
+        return tdatetime.strftime("%Y-%m-%d")
