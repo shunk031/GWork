@@ -59,7 +59,7 @@ if __name__ == '__main__':
     target_category_url = urljoin(BASE_URL, CATEGORIES[args.category])
 
     # load status.json if exists
-    status_file = "GCrawler-status.json"
+    status_file = "GCrawler-status-{}.json".format(args.category)
     if os.path.isfile(status_file):
         with open(status_file, "r") as rf:
             status_dict = json.load(rf)

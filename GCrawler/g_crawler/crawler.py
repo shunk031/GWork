@@ -121,7 +121,7 @@ class GCrawler(GBase):
         status_dict["target_url"] = self.target_url
         status_dict["page_count"] = self.page_count
 
-        status_filename = "GCrawler-status.json"
+        status_filename = "GCrawler-status-{}.json".format(self.target_category)
         with open(status_filename, "w") as wf:
             json.dump(status_dict, wf, indent=2)
 
