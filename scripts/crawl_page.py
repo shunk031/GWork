@@ -59,9 +59,11 @@ if __name__ == '__main__':
     target_category_url = urljoin(BASE_URL, CATEGORIES[args.category])
 
     # load status.json if exists
+    status_file_dir = os.path.join(os.path.dirname(os.path.realpath("__file__")), "crawler-status")
     status_file = "GCrawler-status-{}.json".format(args.category)
-    if os.path.isfile(status_file):
-        with open(status_file, "r") as rf:
+    if os.path.isfile(os.path.join(status_file_dir, status_file)):
+        print("[ LOAD ] Load status file.")
+        with open(os.path.join(status_file_dir, status_file), "r") as rf:
             status_dict = json.load(rf)
 
         target_url = status_dict["target_url"]
@@ -75,7 +77,7 @@ if __name__ == '__main__':
     if not os.path.isdir(save_dir):
         os.makedirs(save_dir)
 
-    crawler = GCrawler(target_category_url, args.category, save_dir)
+    crawler = GCrawler(target_url, args.category, save_dir, page_count)
     slacker_config_path = os.path.join(HOME_DIR, ".slacker.config")
     with open(slacker_config_path, "r") as rf:
         slacker_config = json.load(rf)
@@ -83,7 +85,7 @@ if __name__ == '__main__':
     slacker = Slacker(slacker_config["token"])
 
     start_id = random.randint(0, 1000)
-    slacker.chat.post_message("#crawler", "[{}] [ID: {}] START.".format(crawler.__class__.__name__, start_id))
+    slacker.chat.post_message("#crawler", "[{}] [ID: {}] START {}.".format(crawler.__class__.__name__, start_id, args.category))
     finish_crawl = crawler.crawl()
 
     safe_post_message(slacker, crawler, start_id, finish_crawl)

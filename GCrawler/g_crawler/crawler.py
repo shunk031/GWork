@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import os
 import time
 import json
 import traceback
@@ -121,8 +122,13 @@ class GCrawler(GBase):
         status_dict["target_url"] = self.target_url
         status_dict["page_count"] = self.page_count
 
+        # make directory of status file if not exists
+        status_file_dir = os.path.join(os.path.dirname(os.path.realpath("__file__")), "crawler-status")
+        if not os.path.isdir(status_file_dir):
+            os.makedirs(status_file_dir)
+
         status_filename = "GCrawler-status-{}.json".format(self.target_category)
-        with open(status_filename, "w") as wf:
+        with open(os.path.join(status_file_dir, status_filename), "w") as wf:
             json.dump(status_dict, wf, indent=2)
 
-        print("[ SAVE ] Save status.json")
+        print("[ SAVE ] Save status.")
