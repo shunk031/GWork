@@ -31,6 +31,14 @@ HOME_DIR = os.path.expanduser("~")
 
 
 def safe_post_message(slacker, crawler, start_id, post_message, max_retries=3):
+    """
+    post for my slack channel
+    :param slacker.Slacker slacker:
+    :param g_crawler.crawler.GCrawler crawler:
+    :param int start_id:
+    :param str post_message:
+    :param int max_retries=3:
+    """
 
     retries = 0
 
@@ -73,19 +81,23 @@ if __name__ == '__main__':
         target_url = target_category_url
         page_count = 1
 
+    # define data save directory and make the directory if not exists
     save_dir = os.path.join(os.path.dirname(os.path.realpath("__file__")), "data", args.category)
     if not os.path.isdir(save_dir):
         os.makedirs(save_dir)
 
-    crawler = GCrawler(target_url, args.category, save_dir, page_count)
+    # prepare to post slack channel
     slacker_config_path = os.path.join(HOME_DIR, ".slacker.config")
     with open(slacker_config_path, "r") as rf:
         slacker_config = json.load(rf)
-
     slacker = Slacker(slacker_config["token"])
 
     start_id = random.randint(0, 1000)
+    # start crawling
+    crawler = GCrawler(target_url, args.category, save_dir, page_count)
+
     slacker.chat.post_message("#crawler", "[{}] [ID: {}] START {}.".format(crawler.__class__.__name__, start_id, args.category))
     finish_crawl = crawler.crawl()
 
+    # post that crawl finished
     safe_post_message(slacker, crawler, start_id, finish_crawl)
