@@ -119,7 +119,7 @@ class GScraper(GBase):
             article_title = article_dict['title']
             update_date = self._convert_update_date(article_dict['update_date'])
             # define csv filename from title and update date
-            csv_filename = "{}.csv".format(self._convert_filename(update_date + article_title))
+            csv_filename = "{}.csv".format(self._convert_filename("{}_{}".format(update_date, article_title)))
 
             # save article dict to csv
             with open(os.path.join(self.save_dir, csv_filename), "w") as wf:
@@ -134,7 +134,7 @@ class GScraper(GBase):
         :rtype: str
         """
         filename = article_title.replace("/", "")
-        filename = filename.replace("?", "")
+        filename = filename.replace("?", "").replace("\u3000", " ")
 
         if len(filename) > 150:
             print("[ DEBUG ] File name is too long, so shorten.")
