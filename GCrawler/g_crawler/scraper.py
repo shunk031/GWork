@@ -94,7 +94,7 @@ class GScraper(GBase):
         :param bs4.BeautifulSoup a_soup:
         :rtype: str
         """
-        return a_soup.find("div", {"data-gtm": "article_article"}).get_text()
+        return a_soup.find("div", {"data-gtm": "article_article"}).get_text().replace("\n", "")
 
     def get_update_date(self, a_soup):
         """
