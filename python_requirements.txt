@@ -19,6 +19,7 @@ lxml==3.7.3
 Markdown==2.6.8
 MarkupSafe==0.23
 mccabe==0.6.1
+mecab-python3==0.7
 numpy==1.12.0
 packaging==16.8
 pandas==0.19.2
@@ -36,9 +37,12 @@ python-dateutil==2.6.0
 pytz==2016.10
 requests==2.13.0
 rope==0.10.3
+scikit-learn==0.18.1
+scipy==0.18.1
 sexpdata==0.0.3
 simplegeneric==0.8.1
 six==1.10.0
+sklearn==0.0
 slacker==0.9.42
 tqdm==4.11.2
 traitlets==4.3.1
