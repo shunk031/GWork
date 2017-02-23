@@ -136,9 +136,10 @@ class GScraper(GBase):
         filename = article_title.replace("/", "")
         filename = filename.replace("?", "").replace("\u3000", " ")
 
-        if len(filename) > 150:
+        if len(filename) > 80:
             print("[ DEBUG ] File name is too long, so shorten.")
-            filename = filename[:150]
+            print("{:9} {}".format("", filename))
+            filename = filename[:80]
         return filename
 
     def _convert_update_date(self, update_date):
