@@ -28,14 +28,14 @@ class PreprocessDataset:
     def wakati(self, ja_str):
         """
         :param str ja_str:
-        :rtype: str
+        :rtype: list
         """
         if self.wakati_type == 'mecab-noun':
-            wakati_str = self.wakati_mecab(ja_str)
+            wakati_list = self.wakati_mecab(ja_str)
         elif self.wakati_type == 'n-gram':
-            wakati_str = self.wakati_ngram(ja_str, self.ngram_n)
+            wakati_list = self.wakati_ngram(ja_str, self.ngram_n)
 
-        return wakati_str
+        return wakati_list
 
     def wakati_mecab(self, ja_str):
         """
@@ -52,8 +52,7 @@ class PreprocessDataset:
                 wakati_tokens.append(node.surface)
             node = node.next
 
-        wakati_str = ' '.join(wakati_tokens)
-        return wakati_str
+        return wakati_tokens
 
     def wakati_ngram(self, ja_str, ngram_n):
         """
@@ -79,8 +78,7 @@ class PreprocessDataset:
                 continue
             wakati_ngram.append(cw)
 
-        wakati_str = ' '.join(wakati_ngram)
-        return wakati_str
+        return wakati_ngram
 
     def fit(self):
         pass
