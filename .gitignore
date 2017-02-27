@@ -1,6 +1,6 @@
 # gwork gitignore
 
-*.html
+README.html
 *.csv
 *.json
 
