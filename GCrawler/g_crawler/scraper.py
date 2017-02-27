@@ -10,14 +10,14 @@ from GCrawler.g_crawler.g_base import GBase
 
 class GScraper(GBase):
 
-    def __init__(self, target_url, target_gategory, save_dir):
+    def __init__(self, target_url, target_category, save_dir):
         """
         :param str target_url: crawl target url
-        :param str target_gategory: target article category
+        :param str target_category: target article category
         :param str save_dir: directory where data is saved
         """
         self.target_url = target_url
-        self.target_gategory = target_gategory
+        self.target_category = target_category
         self.save_dir = save_dir
 
     def scrap(self):
