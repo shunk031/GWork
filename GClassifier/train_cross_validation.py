@@ -22,6 +22,7 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument("dataset", choices=dataset_choices)
+    parser.add_argument("--kfold", type=int, default=5)
     args = parser.parse_args()
 
     df = pd.read_csv(os.path.join(PREPROCESSED_DATASET_DIR, args.dataset + ".csv"))
@@ -30,12 +31,11 @@ if __name__ == '__main__':
     print("[ PROCESS ] Encode label to number.")
     class_le = LabelEncoder()
     y = class_le.fit_transform(df['category'].values)
-
     X = df['article'].values
 
-    print("[ PROCESS ] Start 5-fold Cross validation.")
-    skf = StratifiedKFold(y, 5)
-    accuracy = 0
+    ave_accuracy = 0
+    print("[ PROCESS ] Start {}-fold Cross validation.".format(args.kfold))
+    skf = StratifiedKFold(y, args.kfold)
     for idx, (train_idx, test_idx) in enumerate(skf):
         print("[ PROCESS ] Now {} th validation".format(idx + 1))
         print("[ PROCESS ] Split into train data and test data.")
@@ -61,7 +61,7 @@ if __name__ == '__main__':
         print("{}".format(class_le.inverse_transform([x for x in range(8)])))
         print("{}\n".format(confusion_matrix(y_true, y_pred)))
 
-        accuracy += (y_pred == y[test_idx]).sum() / len(y_pred)
+        ave_accuracy += (y_pred == y[test_idx]).sum() / len(y_pred)
 
-    # output average accuracy
-    print("Average Accuracy: {:.2f} [%]".format((accuracy / 5) * 100))
+    # output average validation score
+    print("Average Accuracy: {:.2f} [%]".format((ave_accuracy / args.kfold) * 100))
