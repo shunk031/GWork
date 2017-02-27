@@ -73,7 +73,7 @@ class GScraper(GBase):
         article_dict["url"] = article_url
         article_dict["title"] = self.get_article_title(article_soup)
         article_dict["article"] = self.get_article_content(article_soup)
-        article_dict["category"] = self.target_gategory
+        article_dict["category"] = self.target_category
         article_dict["update_date"] = self.get_update_date(article_soup)
 
         return article_dict
