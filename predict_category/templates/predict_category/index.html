@@ -1,5 +1,5 @@
 <h1>Predict category of Gunosy news article</h1>
-<p>Please enter Gunosy newa article URL.</p>
+<p>Please enter Gunosy news article URL.</p>
 <form action="{% url 'predict_category:result' %}" method="post">
   {% csrf_token %}
   {{url_form.as_p}}
