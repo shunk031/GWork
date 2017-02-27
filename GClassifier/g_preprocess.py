@@ -132,7 +132,10 @@ if __name__ == '__main__':
     print("[ PREPROCESS ] Now wakatigaki...")
     df['article'] = df['article'].apply(lambda x: preprocess_dataset.wakati(str(x)))
 
-    csv_filename = "{}_{}.csv".format(args.wakati_type, args.category)
+    if args.wakati_type == "n-gram":
+        csv_filename = "{}-gram_{}.csv".format(args.ngram_n, args.category)
+    else:
+        csv_filename = "{}_{}.csv".format(args.wakati_type, args.category)
     if not os.path.isdir(PREPROCESSED_DATASET_DIR):
         os.makedirs(PREPROCESSED_DATASET_DIR)
 
