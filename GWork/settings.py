@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'predict_category.apps.PredictCategoryConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
