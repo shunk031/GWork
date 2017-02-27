@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from tqdm import tqdm
-
 import math
 import sys
 from collections import defaultdict
