@@ -45,7 +45,7 @@ Train Naive Bayes model using the wakatigaking data and dump it to `GClassifier/
 
 ``` shell
 $ cd GClassifier
-$ python dump_classifier.py mecab-noun_all
+$ python dump_classifier.py mecab-noun_all # or n-gram_all
 ```
 
 ## Run Predict news category server
@@ -59,3 +59,8 @@ $ python manage.py runserver
 ## Model validation
 
 We evaluated classifier using 5-fold cross validation. The result is [here](https://github.com/shunk031/GWork/blob/master/GClassifier/README.md)
+
+``` shell
+$ cd Gclassifier
+$ python train_cross_validation.py mecab-noun_all --kfold 5
+```
