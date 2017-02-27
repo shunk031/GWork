@@ -11,8 +11,8 @@
 
 5-fold cross validationを用いて分類器の評価を行った。
 
-| method                 | accuracy |
-|------------------------|----------|
-| use only nouns         | 0.8917   |
-| word 2-gram            | 0.8385   |
-| word 3-gram            | 0.8348   |
+| method                 | accuracy     |
+|------------------------|--------------|
+| use only nouns         | **0.8917**   |
+| word 2-gram            | 0.8385       |
+| word 3-gram            | 0.8348       |
