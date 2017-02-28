@@ -15,6 +15,9 @@ from GClassifier.g_classifier import NaiveBayes
 
 SERIALIZE_MODEL_DIR = os.path.join(os.path.dirname(os.path.abspath("__file__")), "GClassifier")
 
+with open(os.path.join(SERIALIZE_MODEL_DIR, "naive_bayes_model.pkl"), "rb") as rf:
+    naive_bayes = pickle.load(rf)
+
 # Create your views here.
 
 
@@ -55,8 +58,5 @@ def predict_article_category(article):
 
     preprocess_dataset = PreprocessDataset("mecab-noun")
     wakati_list = preprocess_dataset.wakati(article)
-
-    with open(os.path.join(SERIALIZE_MODEL_DIR, "naive_bayes_model.pkl"), "rb") as rf:
-        naive_bayes = pickle.load(rf)
 
     return naive_bayes.classify(wakati_list)
