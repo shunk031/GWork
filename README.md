@@ -50,7 +50,7 @@ $ python dump_classifier.py mecab-noun_all # or n-gram_all
 
 ## Run Predict news category server
 
-Run the server and enter gunosy article URL.
+Run the server and access [http://localhost:8000/predict_category/](http://localhost:8000/predict_category/) then enter gunosy article URL.
 
 ``` shell
 $ python manage.py runserver
