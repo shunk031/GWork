@@ -35,8 +35,8 @@ Do wakatigaki data and format it. Output CSV file is stored in `GClassifier/data
 $ cd GClassifier
 $ python g_preprocess.py all --wakati_type mecab-noun
 
-# if you use n-gram
-$ python g_preprocess.py all --wakati_type n-gram --ngram_n 2
+# if you use word-level n-gram
+$ python g_preprocess.py all --wakati_type word-ngram --ngram_n 2
 ```
 
 ### Train Naive Bayes model and dump it.
