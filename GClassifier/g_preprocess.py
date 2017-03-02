@@ -16,7 +16,7 @@ CATEGORIES = ["entertainment", "sports", "interesting", "domestic", "overseas", 
 
 class PreprocessDataset:
 
-    WAKATI_TYPE = ["mecab-noun", "n-gram"]
+    WAKATI_TYPE = ["mecab-noun", "word-ngram", "char-ngram"]
 
     def __init__(self, wakati_type='mecab-noun', ngram_n=None):
         self._check_wakati_type(wakati_type)
@@ -31,16 +31,18 @@ class PreprocessDataset:
         :rtype: list
         """
         if self.wakati_type == 'mecab-noun':
-            wakati_list = self.wakati_mecab(ja_str)
-        elif self.wakati_type == 'n-gram':
-            wakati_list = self.wakati_ngram(ja_str, self.ngram_n)
+            wakati_list = self.wakati_noun(ja_str)
+        elif self.wakati_type == 'word-ngram':
+            wakati_list = self.word_ngram(ja_str, self.ngram_n)
+        elif self.wakati_type == 'char-ngram':
+            wakati_list = self.char_ngram(ja_str, self.ngram_n)
 
         return wakati_list
 
-    def wakati_mecab(self, ja_str):
+    def wakati_noun(self, ja_str):
         """
         :param str ja_str:
-        :rtype: str
+        :rtype: list
         """
         self.mt.parse('')
 
@@ -54,11 +56,11 @@ class PreprocessDataset:
 
         return wakati_tokens
 
-    def wakati_ngram(self, ja_str, ngram_n):
+    def word_ngram(self, ja_str, ngram_n):
         """
         :param str ja_str:
         :param int ngram_n:
-        :rtype: str
+        :rtype: list
         """
         self.mt.parse('')
 
@@ -68,25 +70,34 @@ class PreprocessDataset:
             wakati_tokens.append(node.surface)
             node = node.next
 
+        word_ngram = self.n_gram(wakati_tokens, ngram_n)
+        return word_ngram
+
+    def char_ngram(self, ja_str, ngram_n):
+        """
+        :param str ja_str:
+        :param int ngram_n:
+        :rtype: list
+        """
+        char_ngram = self.n_gram(ja_str, ngram_n)
+        return char_ngram
+
+    def n_gram(self, str_list, ngram_n):
         wakati_ngram = []
-        for i in range(len(wakati_tokens)):
+        for i in range(len(str_list)):
             cw = ''
-            if i >= self.ngram_n - 1:
-                for j in reversed(range(self.ngram_n)):
-                    cw += wakati_tokens[i - j]
+            if i >= ngram_n - 1:
+                for j in reversed(range(ngram_n)):
+                    cw += str_list[i - j]
             else:
                 continue
             wakati_ngram.append(cw)
-
         return wakati_ngram
-
-    def fit(self):
-        pass
 
     def _check_wakati_type(self, wakati_type):
 
         if not(wakati_type in self.WAKATI_TYPE):
-            raise ValueError('You should set wakati_type as "mecab-noun" or "n-gram".')
+            raise ValueError('You should set wakati_type as {}.'.format('or'.join(self.WAKATI_TYPE)))
 
 
 def concat_all_dataset(root_dir_path, filenames):
@@ -132,8 +143,10 @@ if __name__ == '__main__':
     print("[ PREPROCESS ] Now wakatigaki...")
     df['article'] = df['article'].apply(lambda x: preprocess_dataset.wakati(str(x)))
 
-    if args.wakati_type == "n-gram":
-        csv_filename = "{}-gram_{}.csv".format(args.ngram_n, args.category)
+    if args.wakati_type == "word-ngram":
+        csv_filename = "word_{}-gram_{}.csv".format(args.ngram_n, args.category)
+    elif args.wakati_type == "char-ngram":
+        csv_filename = "char_{}-gram_{}.csv".format(args.ngram_n, args.category)
     else:
         csv_filename = "{}_{}.csv".format(args.wakati_type, args.category)
     if not os.path.isdir(PREPROCESSED_DATASET_DIR):
